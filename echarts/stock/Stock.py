@@ -41,10 +41,12 @@ class Stock:
 
     def stock_financials_to_json(self):
         self.stock_financials = self.stock_data.financials.T
+        self.stock_financials = self.stock_financials.reset_index()
         return self.stock_financials.to_json()
 
     def stock_cashflow_to_json(self):
         self.stock_cashflow = self.stock_data.cashflow.T
+        self.stock_cashflow = self.stock_cashflow.reset_index()
         return self.stock_cashflow.to_json()
 
     def stock_options_to_json(self):
@@ -53,6 +55,7 @@ class Stock:
 
     def stock_balance_sheet_to_json(self):
         self.stock_balance_sheet = self.stock_data.balance_sheet.T
+        self.stock_balance_sheet = self.stock_balance_sheet.reset_index()
         return self.stock_balance_sheet.to_json()
 
 
