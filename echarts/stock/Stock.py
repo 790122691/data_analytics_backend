@@ -43,6 +43,7 @@ class Stock:
     def stock_financials_to_json(self):
         self.stock_financials = self.stock_data.financials
         temp = self.stock_financials
+        temp['time'] = None
         for index, row in temp.iterrows():
             row['time'] = str(datetime.now())
         temp = temp.reset_index()
@@ -52,6 +53,7 @@ class Stock:
     def stock_cashflow_to_json(self):
         self.stock_cashflow = self.stock_data.cashflow
         temp = self.stock_cashflow
+        temp['time'] = None
         for index, row in temp.iterrows():
             row['time'] = str(datetime.now())
         temp = temp.reset_index()
@@ -65,6 +67,7 @@ class Stock:
     def stock_balance_sheet_to_json(self):
         self.stock_balance_sheet = self.stock_data.balance_sheet
         temp = self.stock_balance_sheet
+        temp['time'] = None
         for index, row in temp.iterrows():
             row['time'] = str(datetime.now())
         temp = temp.reset_index()
