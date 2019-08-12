@@ -2,3 +2,4 @@ django
 yfinance
 pandas
 django-cors-middleware
+pymysql

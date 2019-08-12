@@ -40,7 +40,7 @@ class Stock:
         return self.stock_actions.to_json()
 
     def stock_financials_to_json(self):
-        self.stock_financials = self.stock_data.financials
+        self.stock_financials = self.stock_data.financials.T
         return self.stock_financials.to_json()
 
     def stock_cashflow_to_json(self):
