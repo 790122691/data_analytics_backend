@@ -21,19 +21,19 @@ def init():
             obj = None
             try:
                 obj = Ticker.objects.get(pk=code)
-                if not stock_data[0]:
+                if stock_data[0]:
                     obj.stock_info = stock_data[0]
-                if not stock_data[1]:
+                if stock_data[1]:
                     obj.stock_history = stock_data[1]
-                if not stock_data[2]:
+                if stock_data[2]:
                     obj.stock_actions = stock_data[2]
-                if not stock_data[3]:
+                if stock_data[3]:
                     obj.stock_financials = stock_data[3]
-                if not stock_data[4]:
+                if stock_data[4]:
                     obj.stock_cashflow = stock_data[4]
-                if not stock_data[5]:
+                if stock_data[5]:
                     obj.stock_options = stock_data[5]
-                if not stock_data[6]:
+                if stock_data[6]:
                     obj.stock_balance_sheet = stock_data[6]
 
                     obj.save()
