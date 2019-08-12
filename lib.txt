@@ -1,4 +1,4 @@
 django
 yfinance
 pandas
-pymysql
+django-cors-middleware
