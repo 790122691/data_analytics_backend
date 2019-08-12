@@ -44,31 +44,15 @@ class Stock:
         return self.stock_financials.to_json()
 
     def stock_cashflow_to_json(self):
-        self.stock_cashflow = self.stock_data.cashflow
+        self.stock_cashflow = self.stock_data.cashflow.T
         return self.stock_cashflow.to_json()
 
     def stock_options_to_json(self):
         self.stock_options = self.stock_data.options
-        return self.stock_options.to_json()
+        return json.dumps(self.stock_options)
 
     def stock_balance_sheet_to_json(self):
-        self.stock_balance_sheet = self.stock_data.balance_sheet
+        self.stock_balance_sheet = self.stock_data.balance_sheet.T
         return self.stock_balance_sheet.to_json()
-'''
-    def stock_history_to_json(self):
-        temp = self.stock_history.reset_index()
-        temp = temp.set_index(['Date'], drop=False)
-        temp = temp.sort_index()
-        jstr = ''
-        for index, row in temp.iterrows():
-            intra = IntradayTrading(str(row['Date']), row['Open'],
-                                    row['High'], row['Low'],
-                                    row['Close'], row['Dividends'],
-                                    row['Stock Splits'])
-            jstr += json.dumps(intra, default=lambda obj: obj.__dict__, sort_keys=True, indent=4)
-            jstr += ','
 
-        jstr = jstr.strip(',')
-        return '{\"stock_history\":['+jstr+']}'
-'''
 
