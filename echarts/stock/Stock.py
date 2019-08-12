@@ -2,6 +2,7 @@ import yfinance as yf
 import pandas as pd
 from .IntradayTrading import IntradayTrading
 import json
+from datetime import datetime
 
 
 class Stock:
@@ -40,22 +41,43 @@ class Stock:
         return self.stock_actions.to_json()
 
     def stock_financials_to_json(self):
-        self.stock_financials = self.stock_data.financials.T
-        self.stock_financials = self.stock_financials.reset_index()
-        return self.stock_financials.to_json()
+        self.stock_financials = self.stock_data.financials
+        temp = self.stock_financials
+        time_list = list()
+        for i in range(temp.shape[0]):
+            time_list.append(datetime.now())
+        time_series = pd.Series(time_list)
+        temp['time'] = time_series
+        temp = temp.reset_index()
+        temp = temp.set_index('time')
+        return temp.to_json()
 
     def stock_cashflow_to_json(self):
-        self.stock_cashflow = self.stock_data.cashflow.T
-        self.stock_cashflow = self.stock_cashflow.reset_index()
-        return self.stock_cashflow.to_json()
+        self.stock_cashflow = self.stock_data.cashflow
+        temp = self.stock_cashflow
+        time_list = list()
+        for i in range(temp.shape[0]):
+            time_list.append(datetime.now())
+        time_series = pd.Series(time_list)
+        temp['time'] = time_series
+        temp = temp.reset_index()
+        temp = temp.set_index('time')
+        return temp.to_json()
 
     def stock_options_to_json(self):
         self.stock_options = self.stock_data.options
         return json.dumps(self.stock_options)
 
     def stock_balance_sheet_to_json(self):
-        self.stock_balance_sheet = self.stock_data.balance_sheet.T
-        self.stock_balance_sheet = self.stock_balance_sheet.reset_index()
-        return self.stock_balance_sheet.to_json()
+        self.stock_balance_sheet = self.stock_data.balance_sheet
+        temp = self.stock_balance_sheet
+        time_list = list()
+        for i in range(temp.shape[0]):
+            time_list.append(datetime.now())
+        time_series = pd.Series(time_list)
+        temp['time'] = time_series
+        temp = temp.reset_index()
+        temp = temp.set_index('time')
+        return temp.to_json()
 
 
