@@ -86,14 +86,18 @@ class Stock:
 
 
     def stock_balance_sheet_to_json(self):
-        self.stock_balance_sheet = self.stock_data.balance_sheet
-        temp = self.stock_balance_sheet
-        temp['time'] = None
-        for index, row in temp.iterrows():
-            row['time'] = str(datetime.now())
-        temp = temp.reset_index()
-        temp = temp.set_index('time')
-        return temp.to_json()
+        try:
+            self.stock_balance_sheet = self.stock_data.balance_sheet
+            temp = self.stock_balance_sheet
+            temp['time'] = None
+            for index, row in temp.iterrows():
+                row['time'] = str(datetime.now())
+            temp = temp.reset_index()
+            temp = temp.set_index('time')
+            return temp.to_json()
+        except IndexError:
+            print('index error')
+            return ''
 
     def get_range_list_to_json(self):
         if self.stock_history.empty:
