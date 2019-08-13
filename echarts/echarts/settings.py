@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'echarts.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'alpha',
+        'NAME': 'ALPHA',
         'USER': 'lz',
         'PASSWORD': '960908',
         'HOST': 'smallcookie.cn',
