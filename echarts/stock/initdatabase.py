@@ -1,9 +1,13 @@
 from stock.models import Ticker
 from stock.Stock import Stock
+import csv
 
-
-def init():
-    codes = ['AAPL', 'BABA', 'GOOG', 'MSFT', 'EBAY', 'AMZN', 'INTC', 'NOK']
+def init(part):
+    codes = []
+    with open('part'+part+'.csv') as tic:
+        rows = csv.reader(tic)
+        for row in rows:
+            codes.append(row[0])
 
     for code in codes:
         print('---------------------------------------')
