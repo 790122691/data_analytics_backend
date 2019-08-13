@@ -41,8 +41,12 @@ class Stock:
 
 
     def stock_actions_to_json(self):
-        self.stock_actions = self.stock_data.actions
-        return self.stock_actions.to_json()
+        try:
+            self.stock_actions = self.stock_data.actions
+            return self.stock_actions.to_json()
+        except ValueError:
+            print('1d data')
+            return ''
 
     def stock_financials_to_json(self):
         self.stock_financials = self.stock_data.financials
