@@ -11,3 +11,4 @@ class Ticker(models.Model):
     stock_cashflow = models.TextField(default='')
     stock_options = models.TextField(default='')
     stock_balance_sheet = models.TextField(default='')
+    stock_range_list = models.TextField(default='')

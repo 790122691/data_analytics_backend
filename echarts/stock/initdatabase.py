@@ -34,7 +34,8 @@ def init():
                     obj.stock_options = stock_data[5]
                 if stock_data[6]:
                     obj.stock_balance_sheet = stock_data[6]
-
+                if stock_data[7]:
+                    obj.stock_range_list = stock_data[7]
                     obj.save()
             except Ticker.DoesNotExist:
                 obj = Ticker.objects.create(stock_ticker=code,
@@ -44,7 +45,9 @@ def init():
                                             stock_financials=stock_data[3],
                                             stock_cashflow=stock_data[4],
                                             stock_options=stock_data[5],
-                                            stock_balance_sheet=stock_data[6])
+                                            stock_balance_sheet=stock_data[6],
+                                            stock_range_list=stock_data[7]
+                                            )
                 obj.save()
         print('---------------------------------------')
 
@@ -66,7 +69,8 @@ def download(stock, stock_data):
     print('stock_options Done')
     stock_data.append(stock.stock_balance_sheet_to_json())
     print('stock_balance_sheet Done')
-
+    stock_data.append(stock.get_range_list_to_json())
+    print('stock_range_list Done')
 
 '''    try:
         with time_limit(10):
