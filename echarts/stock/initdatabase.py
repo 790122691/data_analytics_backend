@@ -4,7 +4,7 @@ import csv
 
 def init(part):
     codes = []
-    with open('part'+part+'.csv') as tic:
+    with open('part'+str(part)+'.csv') as tic:
         rows = csv.reader(tic)
         for row in rows:
             codes.append(row[0])
