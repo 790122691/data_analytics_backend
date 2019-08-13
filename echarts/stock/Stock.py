@@ -74,7 +74,7 @@ class Stock:
         return temp.to_json()
 
     def get_range_list_to_json(self):
-        if self.stock_history:
+        if self.stock_history.empty:
             data = self.stock_history
         else:
             return ''
