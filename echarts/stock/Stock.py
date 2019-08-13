@@ -52,12 +52,13 @@ class Stock:
         try:
             self.stock_financials = self.stock_data.financials
             temp = self.stock_financials
-            temp['time'] = None
+            temp['line'] = None
+            line = 0
             for index, row in temp.iterrows():
-                time.sleep(0.1)
-                row['time'] = str(datetime.now())
+                row['line'] = 'l' + str(line)
+                line += 1
             temp = temp.reset_index()
-            temp = temp.set_index('time')
+            temp = temp.set_index('line')
             return temp.to_json()
         except IndexError:
             print('index error')
@@ -67,12 +68,13 @@ class Stock:
         try:
             self.stock_cashflow = self.stock_data.cashflow
             temp = self.stock_cashflow
-            temp['time'] = None
+            temp['line'] = None
+            line = 0
             for index, row in temp.iterrows():
-                time.sleep(0.1)
-                row['time'] = str(datetime.now())
+                row['line'] = 'l' + str(line)
+                line += 1
             temp = temp.reset_index()
-            temp = temp.set_index('time')
+            temp = temp.set_index('line')
             return temp.to_json()
         except IndexError:
             print('index error')
@@ -91,12 +93,13 @@ class Stock:
         try:
             self.stock_balance_sheet = self.stock_data.balance_sheet
             temp = self.stock_balance_sheet
-            temp['time'] = None
+            temp['line'] = None
+            line = 0
             for index, row in temp.iterrows():
-                time.sleep(0.1)
-                row['time'] = str(datetime.now())
+                row['line'] = 'l' + str(line)
+                line += 1
             temp = temp.reset_index()
-            temp = temp.set_index('time')
+            temp = temp.set_index('line')
             return temp.to_json()
         except IndexError:
             print('index error')
