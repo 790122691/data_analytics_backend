@@ -7,5 +7,6 @@ urlpatterns = [
     re_path(r'register/', views.register, name='register'),
     re_path(r'UpdatePortfolio/', views.UpdatePortfolio, name='UpdatePortfolio'),
     re_path(r'GetPortfolio/', views.GetPortfolio, name='GetPortfolio'),
+    re_path(r'logout/', views.logout, name='logout'),
 
 ]
