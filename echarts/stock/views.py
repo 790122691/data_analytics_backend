@@ -1,21 +1,6 @@
-from django.shortcuts import render
 from django.http import HttpResponse, Http404,HttpResponseNotFound
 from .models import Ticker
 import pandas as pd
-#import json
-
-
-# Create your views here.
-def stock_history(request):
-    code = request.GET['code']
-    code = str(code).upper()
-
-    ticker = Ticker.objects.get(pk=code)
-    return HttpResponse(ticker.stock_history)
-
-
-def index(request):
-    return render(request, 'stock/index.html')
 
 
 def get_stock_history(request):
