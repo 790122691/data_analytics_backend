@@ -1,8 +1,7 @@
-from django.urls import path, re_path
+from django.urls import re_path
 from . import views
 
 urlpatterns = [
     re_path(r'stock_history/', views.stock_history, name='stock_history'),
-    path('', views.index, name='index'),
-    re_path(r'GetStockInfo', views.get_stock_history, name = 'test'),
+    re_path(r'GetStockInfo', views.get_stock_history, name ='test'),
 ]
