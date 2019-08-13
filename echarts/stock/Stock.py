@@ -32,8 +32,13 @@ class Stock:
         return json.dumps(self.stock_info)
 
     def stock_history_to_json(self):
-        self.stock_history = self.stock_data.history(period='max')
-        return self.stock_history.to_json()
+        try:
+            self.stock_history = self.stock_data.history(period='max')
+            return self.stock_history.to_json()
+        except ValueError:
+            print('1d data')
+            return ''
+
 
     def stock_actions_to_json(self):
         self.stock_actions = self.stock_data.actions
