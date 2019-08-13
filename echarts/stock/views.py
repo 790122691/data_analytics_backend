@@ -57,7 +57,7 @@ def get_all_stock(request):
     tick_list_str = []
     for tic in tick_list:
         if tic.stock_ticker:
-            tick_list_str.append(tic.stock_ticker)
+            tick_list_str.append(tic.stock_info)
 
     if tick_list_str:
         tick_list_str = json.dumps(tick_list_str)
