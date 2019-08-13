@@ -45,19 +45,22 @@ def get_range_list(request):
     except Ticker.DoesNotExist:
         return HttpResponseNotFound('Symbol not found')
 
-    data_str = ticker.stock_history
+    data_str = ticker.stock_range_list
     if not data_str:
         return HttpResponseNotFound("Data not found")
-
-    data = pd.read_json(data_str)
-    data = data.sort_index()
-    start = data.head(1)
-    end = data.tail(1)
-    start = list(start.index)
-    end = list(end.index)
-    start = start[0]
-    end = end[0]
-    range_list = [str(start), str(end)]
-    range_list_json = json.dumps(range_list)
-    response = range_list_json
+    response = data_str
     return HttpResponse(response)
+
+
+def get_all_stock(request):
+    tick_list = Ticker.objects.all()
+    tick_list_str = []
+    for tic in tick_list:
+        if tic.stock_ticker:
+            tick_list_str.append(tic.stock_ticker)
+
+    if tick_list_str:
+        tick_list_str = json.dumps(tick_list_str)
+        return HttpResponse(tick_list_str)
+    else:
+        return HttpResponseNotFound('No stock data in database')
