@@ -103,18 +103,22 @@ class Stock:
             return ''
 
     def get_range_list_to_json(self):
-        if self.stock_history.empty:
-            data = self.stock_history
-        else:
+        try:
+            if self.stock_history.empty:
+                data = self.stock_history
+            else:
+                return ''
+            data = data.sort_index()
+            start = data.head(1)
+            end = data.tail(1)
+            start = list(start.index)
+            end = list(end.index)
+            start = start[0]
+            end = end[0]
+            range_list = [str(start), str(end)]
+            range_list_json = json.dumps(range_list)
+            return range_list_json
+        except IndexError:
+            print('index error')
             return ''
-        data = data.sort_index()
-        start = data.head(1)
-        end = data.tail(1)
-        start = list(start.index)
-        end = list(end.index)
-        start = start[0]
-        end = end[0]
-        range_list = [str(start), str(end)]
-        range_list_json = json.dumps(range_list)
-        return range_list_json
 
