@@ -63,20 +63,25 @@ class Stock:
             return ''
 
     def stock_cashflow_to_json(self):
-        self.stock_cashflow = self.stock_data.cashflow
-        temp = self.stock_cashflow
-        temp['time'] = None
-        for index, row in temp.iterrows():
-            row['time'] = str(datetime.now())
-        temp = temp.reset_index()
-        temp = temp.set_index('time')
-        return temp.to_json()
+        try:
+            self.stock_cashflow = self.stock_data.cashflow
+            temp = self.stock_cashflow
+            temp['time'] = None
+            for index, row in temp.iterrows():
+                row['time'] = str(datetime.now())
+            temp = temp.reset_index()
+            temp = temp.set_index('time')
+            return temp.to_json()
+        except IndexError:
+            print('index error')
+            return ''
 
     def stock_options_to_json(self):
         try:
             self.stock_options = self.stock_data.options
             return json.dumps(self.stock_options)
         except IndexError:
+            print('index error')
             return ''
 
 
