@@ -1,8 +1,6 @@
 import yfinance as yf
 import pandas as pd
 import json
-from datetime import datetime
-import time
 
 class Stock:
 
