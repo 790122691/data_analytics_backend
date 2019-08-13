@@ -2,7 +2,7 @@ import yfinance as yf
 import pandas as pd
 import json
 from datetime import datetime
-
+import time
 
 class Stock:
 
@@ -54,6 +54,7 @@ class Stock:
             temp = self.stock_financials
             temp['time'] = None
             for index, row in temp.iterrows():
+                time.sleep(0.1)
                 row['time'] = str(datetime.now())
             temp = temp.reset_index()
             temp = temp.set_index('time')
@@ -68,6 +69,7 @@ class Stock:
             temp = self.stock_cashflow
             temp['time'] = None
             for index, row in temp.iterrows():
+                time.sleep(0.1)
                 row['time'] = str(datetime.now())
             temp = temp.reset_index()
             temp = temp.set_index('time')
@@ -91,6 +93,7 @@ class Stock:
             temp = self.stock_balance_sheet
             temp['time'] = None
             for index, row in temp.iterrows():
+                time.sleep(0.1)
                 row['time'] = str(datetime.now())
             temp = temp.reset_index()
             temp = temp.set_index('time')
