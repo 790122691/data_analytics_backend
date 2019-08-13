@@ -1,6 +1,5 @@
 import yfinance as yf
 import pandas as pd
-from .IntradayTrading import IntradayTrading
 import json
 from datetime import datetime
 

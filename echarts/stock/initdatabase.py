@@ -1,6 +1,5 @@
 from stock.models import Ticker
 from stock.Stock import Stock
-from stock.time_limited import time_limit
 
 
 def init():

@@ -20,7 +20,7 @@ def index(request):
 
 def get_stock_history(request):
     symbol = request.GET['stock_symbol']
-
+    symbol = str(symbol).upper()
     try:
         ticker = Ticker.objects.get(pk=symbol)
     except Ticker.DoesNotExist:
