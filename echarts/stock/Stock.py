@@ -60,8 +60,12 @@ class Stock:
         return temp.to_json()
 
     def stock_options_to_json(self):
-        self.stock_options = self.stock_data.options
-        return json.dumps(self.stock_options)
+        try:
+            self.stock_options = self.stock_data.options
+            return json.dumps(self.stock_options)
+        except IndexError:
+            return ''
+
 
     def stock_balance_sheet_to_json(self):
         self.stock_balance_sheet = self.stock_data.balance_sheet
