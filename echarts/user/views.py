@@ -74,8 +74,8 @@ def logout(request):
     return HttpResponseRedirect('/User/login')
 
 
-def UpdatePortfolio(request):
-    username = request.GET['username']
+def AddPortfolio(request):
+    # username = request.GET['username']
     ticker = request.GET['ticker']
     # del request.session['user_name']
     # print('request.session_is_login----------------------------------------')
@@ -91,55 +91,67 @@ def UpdatePortfolio(request):
     #    print('未登录')
     # 检查是否用户本人
     try:
-        if not(request.session['username'] == username):
-            print('please login')
+        username = request.session['username']
     except KeyError:
+        dic = {}
+        dic['code'] = 201
+        dic['message'] = 'please login '
         print('please login')
-        return HttpResponseNotFound('please login')
+        return HttpResponse(json.dumps(dic))
     # 是否空数据
-    if not(username and ticker):
-        print('blank data')
-        return HttpResponseNotFound('blank data')
+    # if not(username and ticker):
+        # print('blank data')
+        # return HttpResponseNotFound('blank data')
     # 用户是否存在
     try:
         is_user = User.objects.get(name=username)
     except User.DoesNotExist:
+        dic = {}
+        dic['code'] = 202
+        dic['message'] = 'user not exist '
         print('user not exist')
-        return HttpResponseNotFound('user not exist')
+        return HttpResponse(json.dumps(dic))
     # ticker是否存在
     try:
         is_ticker = Ticker.objects.get(stock_ticker=ticker)
     except Ticker.DoesNotExist:
-        print('ticker not found')
-        return HttpResponseNotFound('ticker not found')
+        dic = {}
+        dic['code'] = 203
+        dic['message'] = 'ticker not exist '
+        print('ticker not exist')
+        return HttpResponse(json.dumps(dic))
     # 该portfolio是否已经存在
     try:
-        obj = Portfolio.objects.get(Username=username,Tickercode=ticker)
+        obj = Portfolio.objects.get(Username=username, Tickercode=ticker)
+        dic = {}
+        dic['code'] = 204
+        dic['message'] = 'portfolio already exist '
         print('portfolio already exist')
-        return HttpResponseNotFound('portfolio already exist')
+        return HttpResponse(json.dumps(dic))
     except Portfolio.DoesNotExist:
         Portfolio.objects.create(Username=username, Tickercode=ticker).save()
-        data = {
-            'ticker': ticker,
-        }
-        result = json.dumps(data)
-        print(result)
-        return HttpResponse(result)
+        dic = {}
+        dic['code'] = 200
+        dic['message'] = 'success '
+        print('success')
+        return HttpResponse(json.dumps(dic))
 
 
 def GetPortfolio(request):
-
-    # 是否用户本人
+    # 是否登录
     try:
         username = request.session['username']
-        if not request.session['username']:
-            print('please login')
+        print('username-----------------', username)
     except KeyError:
+        dic = {}
         print('please login')
-        return HttpResponseNotFound('please login')
-    if not username:
-        print('blank data')
-        return HttpResponseNotFound('blank data')
+        dic['code'] = 201
+        dic['message'] = 'please login '
+        return HttpResponse(json.dumps(dic))
+        # return HttpResponseNotFound('please login')
+    # if not username:
+        # print('blank data')
+        # return HttpResponseNotFound('blank data')
     try:
         is_user = User.objects.get(name=username)
         # 查找这个用户的所有stock，port是一个queryset
@@ -161,4 +173,105 @@ def GetPortfolio(request):
         return HttpResponse(result)
     except User.DoesNotExist:
         print('user not exist')
-        return HttpResponseNotFound('user not exist')
+        dic = {}
+        dic['code'] = 202
+        dic['message'] = 'user does not exist '
+        return HttpResponse(json.dumps(dic))
+
+
+
+def DeletePortfolio(request):
+    #username = request.GET['username']
+    ticker = request.GET['ticker']
+    # del request.session['user_name']
+    # print('request.session_is_login----------------------------------------')
+    # print(request.session['is_login'])
+    # print('request.session_name--------------------------------------------')
+    # print(request.session['username'])
+    # 检查登录状态
+    # try:
+    # if not(request.session['is_login']):
+    # print('please login')
+    # except KeyError:
+    #    return HttpResponseNotFound('please login')
+    #    print('未登录')
+    # 检查是否用户本人
+    try:
+        username = request.session['username']
+    except KeyError:
+        dic = {}
+        dic['code'] = 201
+        dic['message'] = 'please login '
+        print('please login')
+        return HttpResponse(json.dumps(dic))
+        # return HttpResponseNotFound('please login')
+    # 是否空数据
+    # if not(username and ticker):
+        # print('blank data')
+        # return HttpResponseNotFound('blank data')
+    # 用户是否存在
+    try:
+        is_user = User.objects.get(name=username)
+    except User.DoesNotExist:
+        dic = {}
+        dic['code'] = 202
+        dic['message'] = 'user does not exist '
+        print('user not exist')
+        return HttpResponse(json.dumps(dic))
+    # ticker是否存在
+    try:
+        is_ticker = Ticker.objects.get(stock_ticker=ticker)
+    except Ticker.DoesNotExist:
+        dic = {}
+        dic['code'] = 203
+        dic['message'] = 'ticker does not exist '
+        print('ticker not exist')
+        return HttpResponse(json.dumps(dic))
+    # 该portfolio是否已经存在
+    try:
+        obj = Portfolio.objects.get(Username=username, Tickercode=ticker)
+        # 存在
+        obj.delete()
+        dic = {}
+        dic['code'] = 200
+        dic['message'] = 'success '
+        print('success')
+        return HttpResponse(json.dumps(dic))
+    except Portfolio.DoesNotExist:
+        dic = {}
+        dic['code'] = 204
+        dic['message'] = 'portfolio does not exist '
+        print('portfolio does not exist')
+        return HttpResponse(json.dumps(dic))
+        # return HttpResponseNotFound('portfolio does not exist')
+
+
+
+def isLogin(request):
+    try:
+        username = request.session['username']
+        dic = {}
+        dic['isLogin'] = 'true'
+        print('Login')
+        return HttpResponse(json.dumps(dic))
+    except KeyError:
+        dic = {}
+        dic['isLogin'] = 'false'
+        print('notLogin')
+        return HttpResponse(json.dumps(dic))
+
+
+def isinPortfolio(request):
+    stocksymbol = request.GET['stocksymbol']
+    try:
+        obj = Portfolio.objects.get(Tickercode=stocksymbol)
+        # 存在
+        dic = {}
+        dic['isinPortfolio'] = 'true'
+        print('isinPortfolio')
+        return HttpResponse(json.dumps(dic))
+    except Portfolio.DoesNotExist:
+        dic = {}
+        dic['isinPortfolio'] = 'false'
+        print('notinPortfolio')
+        return HttpResponse(json.dumps(dic))
