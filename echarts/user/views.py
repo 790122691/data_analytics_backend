@@ -29,6 +29,9 @@ def login(request):
     request.session['username'] = name
     return HttpResponse(result)
 
+def login_page(request):
+    return render(request,'User/login.html')
+
 
 def register(request):
     name = request.GET['username']
