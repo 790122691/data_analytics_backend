@@ -45,7 +45,7 @@
                 const username = $("#username").val();
                 const password = $("#password").val();
                 const re_password = $("#re_password").val();
-                $.post("http://smallcookie.cn:8000/User/register/",{"username":username,"password":password,"re_password":re_password},function (ret) {
+                $.post("/User/register/",{"username":username,"password":password,"re_password":re_password},function (ret) {
                     ret = JSON.parse(ret);
                     if(ret.error == 200){
                         alert(ret.message);

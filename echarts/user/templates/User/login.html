@@ -44,8 +44,15 @@
             $("#Login").click(function () {
                 const username = $("#username").val();
                 const password = $("#password").val();
-                $.post("http://smallcookie.cn:8000/User/login/",{"username":username,"password":password},function (ret) {
-                    alert(ret)
+                $.post("/User/login/",{"username":username,"password":password},function (ret) {
+                    ret = JSON.parse(ret);
+                    if(ret.error == 200){
+                        location.href="/"
+                    }
+                    else {
+                        alert(ret.message)
+                    }
+
                 });
             });
         });

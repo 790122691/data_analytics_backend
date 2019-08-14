@@ -21,10 +21,13 @@ def register_page(request):
 def login(request):
     name = request.POST['username']
     pwd = request.POST['password']
+    dic = {}
     try:
         user_obj = User.objects.get(name=name, pwd=pwd)
     except User.DoesNotExist:
-        return HttpResponseNotFound('user information not match')
+        dic['error'] = 201
+        dic['message'] = 'user information not match'
+        return HttpResponse(json.dumps(dic))
     data = {'username': name}
     result = json.dumps(data)
     print(result)
@@ -32,7 +35,7 @@ def login(request):
     request.session.set_expiry(0)
     #request.session['is_login'] = True
     request.session['username'] = name
-    return render(request,'index.html')
+    return redirect('')
 
 
 def register(request):

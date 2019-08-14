@@ -8,9 +8,10 @@ def init(part):
         rows = csv.reader(tic)
         for row in rows:
             codes.append(row[0])
-
+    count = 0
     for code in codes:
-        print('---------------------------------------')
+        count += 1
+        print('-------------------' + str(count) + '-------------------')
         print(code)
         stock_data = []
         stock = None
@@ -56,7 +57,23 @@ def init(part):
         print('---------------------------------------')
 
 
-
+def download2(stock,stock_data):
+    stock_data.append(stock.stock_info_to_json())
+    print('stock_info Done')
+    stock_data.append(stock.stock_history_to_json())
+    print('stock_history Done')
+    stock_data.append('')
+    #print('stock_actions Done')
+    stock_data.append('')
+    #print('stock_financials Done')
+    stock_data.append('')
+    #print('stock_cashflow Done')
+    stock_data.append('')
+    #print('stock_options Done')
+    stock_data.append('')
+    #print('stock_balance_sheet Done')
+    stock_data.append('')
+    #print('stock_range_list Done')
 
 def download(stock, stock_data):
     stock_data.append(stock.stock_info_to_json())
