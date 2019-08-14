@@ -64,3 +64,21 @@ def get_all_stock(request):
         return HttpResponse(tick_list_str)
     else:
         return HttpResponseNotFound('No stock data in database')
+
+
+def get_stock_history_by_date(request):
+    symbol = request.GET['stock_symbol']
+    days = request.GET['days']
+    try:
+        tic = Ticker.objects.get(pk=symbol)
+    except Ticker.DoesNotExist:
+        return HttpResponseNotFound('Symbol not found')
+
+    jsonstr= tic.stock_history
+    if not jsonstr:
+        return HttpResponseNotFound('No stock data in database')
+    else:
+        tic = pd.read_json(jsonstr)
+
+    tic = tic.tail(int(days))
+    return HttpResponse(request,tic.to_json())
