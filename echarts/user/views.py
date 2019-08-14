@@ -40,21 +40,27 @@ def register(request):
     pwd = request.POST['password']
     re_pwd = request.POST['re_password']
     #传递的参数非空
+    dic = {}
     if not (name and pwd and re_pwd):
+        dic['error'] = 201
+        dic['message'] = 'blank data'
         print('blank data')
-        return HttpResponseNotFound('blank data')
+        return HttpResponse(json.dumps(dic))
     if pwd != re_pwd:
-        return HttpResponseNotFound('password not match')
+        dic['error'] = 201
+        dic['message'] = 'password not match'
+        return HttpResponse(json.dumps(dic))
     try:
         user_obj = User.objects.get(name=name)
-        return HttpResponseNotFound('user already exist')
+        dic['error'] = 201
+        dic['message'] = 'user already exist'
+        return HttpResponse(json.dumps(dic))
     except User.DoesNotExist:
         #新建用户
         User.objects.create(name=name, pwd=pwd).save()
-        print('create')
-        data = {'username': name}
-        result = json.dumps(data)
-        return HttpResponse(result)
+        dic['error'] = 200
+        dic['message'] = name
+        return HttpResponse(json.dumps(dic))
 
 
 def logout(request):
