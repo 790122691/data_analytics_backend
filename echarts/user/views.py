@@ -125,10 +125,11 @@ def UpdatePortfolio(request):
 
 
 def GetPortfolio(request):
-    username = request.GET['username']
+
     # 是否用户本人
     try:
-        if not(request.session['username'] == username):
+        username = request.session['username']
+        if not request.session['username']:
             print('please login')
     except KeyError:
         print('please login')
