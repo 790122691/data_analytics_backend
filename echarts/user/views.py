@@ -10,8 +10,13 @@ import json
 from stock.models import Ticker
 from django.http import HttpResponseRedirect
 
-# Create your views here.
 
+# Create your views here.
+def login_page(request):
+    return render(request,'User/login.html')
+
+def register_page(request):
+    return render(request,'User/register.html')
 
 def login(request):
     name = request.POST['username']
@@ -29,14 +34,11 @@ def login(request):
     request.session['username'] = name
     return HttpResponse(result)
 
-def login_page(request):
-    return render(request,'User/login.html')
-
 
 def register(request):
-    name = request.GET['username']
-    pwd = request.GET['password']
-    re_pwd = request.GET['re_password']
+    name = request.POST['username']
+    pwd = request.POST['password']
+    re_pwd = request.POST['re_password']
     #传递的参数非空
     if not (name and pwd and re_pwd):
         print('blank data')
