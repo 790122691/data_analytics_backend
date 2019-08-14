@@ -153,8 +153,7 @@ def GetPortfolio(request):
         for i in range(count):
             ticker = Ticker.objects.get(stock_ticker=ticker_list[i])
             # print(ticker.stock_info)
-            stock_info = json.loads(ticker.stock_info)
-            data_list.append(stock_info)
+            data_list.append(ticker.stock_info)
         result = json.dumps(data_list)
         return HttpResponse(result)
     except User.DoesNotExist:
