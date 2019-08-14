@@ -14,8 +14,8 @@ from django.http import HttpResponseRedirect
 
 
 def login(request):
-    name = request.POST.get['username']
-    pwd = request.POST.get['password']
+    name = request.POST['username']
+    pwd = request.POST['password']
     try:
         user_obj = User.objects.get(name=name, pwd=pwd)
     except User.DoesNotExist:
