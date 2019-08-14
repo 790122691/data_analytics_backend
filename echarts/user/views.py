@@ -8,16 +8,14 @@ from django.shortcuts import redirect
 #from django.shortcuts import HttpResponse
 import json
 from stock.models import Ticker
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
 
 def login(request):
-    # request这是前端请求发来的请求，携带的所有数据，django给我们做了一些列的处理，封装成一个对象传过来
-    # 解析数据获得用户名和密码
-    # 若数值为空，不会报错，而是返回一个none
-    name = request.POST['username']
-    pwd = request.POST['password']
+    name = request.GET['username']
+    pwd = request.GET['password']
     try:
         user_obj = User.objects.get(name=name, pwd=pwd)
     except User.DoesNotExist:
@@ -25,12 +23,16 @@ def login(request):
     data = {'username': name}
     result = json.dumps(data)
     print(result)
+    # 一旦用户名和密码输入正确，就往session字典内写入用户数据
+    request.session.set_expiry(0)
+    #request.session['is_login'] = True
+    request.session['username'] = name
     return HttpResponse(result)
 
 
 def register(request):
-    name = request.POST['username']
-    pwd = request.POST['password']
+    name = request.GET['username']
+    pwd = request.GET['password']
     re_pwd = request.GET['re_password']
     #传递的参数非空
     if not (name and pwd and re_pwd):
@@ -50,27 +52,57 @@ def register(request):
         return HttpResponse(result)
 
 
+def logout(request):
+    print('request.session_name--------------------------------------------')
+    print(request.session['username'])
+    del request.session['username']        # 删除session
+    #return HttpResponse('logout ok!')
+    return HttpResponseRedirect('/User/login')
+
 
 def UpdatePortfolio(request):
-    username = request.POST['username']
+    username = request.GET['username']
     ticker = request.GET['ticker']
+    # del request.session['user_name']
+    # print('request.session_is_login----------------------------------------')
+    # print(request.session['is_login'])
+    # print('request.session_name--------------------------------------------')
+    # print(request.session['username'])
+    # 检查登录状态
+    # try:
+    # if not(request.session['is_login']):
+    # print('please login')
+    # except KeyError:
+    #    return HttpResponseNotFound('please login')
+    #    print('未登录')
+    # 检查是否用户本人
+    try:
+        if not(request.session['username'] == username):
+            print('please login')
+    except KeyError:
+        print('please login')
+        return HttpResponseNotFound('please login')
+    # 是否空数据
     if not(username and ticker):
         print('blank data')
         return HttpResponseNotFound('blank data')
+    # 用户是否存在
     try:
         is_user = User.objects.get(name=username)
     except User.DoesNotExist:
         print('user not exist')
         return HttpResponseNotFound('user not exist')
+    # ticker是否存在
     try:
         is_ticker = Ticker.objects.get(stock_ticker=ticker)
     except Ticker.DoesNotExist:
         print('ticker not found')
         return HttpResponseNotFound('ticker not found')
+    # 该portfolio是否已经存在
     try:
         obj = Portfolio.objects.get(Username=username,Tickercode=ticker)
-        print('ticker already exist')
-        return HttpResponseNotFound('ticker already exist')
+        print('portfolio already exist')
+        return HttpResponseNotFound('portfolio already exist')
     except Portfolio.DoesNotExist:
         Portfolio.objects.create(Username=username, Tickercode=ticker).save()
         data = {
@@ -82,7 +114,14 @@ def UpdatePortfolio(request):
 
 
 def GetPortfolio(request):
-    username = request.POST['username']
+    username = request.GET['username']
+    # 是否用户本人
+    try:
+        if not(request.session['username'] == username):
+            print('please login')
+    except KeyError:
+        print('please login')
+        return HttpResponseNotFound('please login')
     if not username:
         print('blank data')
         return HttpResponseNotFound('blank data')
