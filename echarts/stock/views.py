@@ -81,4 +81,4 @@ def get_stock_history_by_date(request):
         tic = pd.read_json(jsonstr)
 
     tic = tic.tail(int(days))
-    return HttpResponse(request,tic.to_json())
+    return HttpResponse(tic.to_json())
