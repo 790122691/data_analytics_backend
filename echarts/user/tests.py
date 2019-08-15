@@ -36,7 +36,7 @@ class TestUserAPI(TestCase):
 
     def TestRegister(self):
         # password = json.dumps(password)
-        response = self.client.post('/User/register/', {'username': '12345', 'password': '123', 're_password': '123'})
+        response = self.client.post('/User/register/', {'username': '1234567', 'password': '123', 're_password': '123'})
         print(response.status_code)
         print("---------TestRegister")
         print(response)
