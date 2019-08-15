@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test.client import RequestFactory,Client
 from .models import Ticker
+import json
 # Create your tests here.
 
 class TestStockDataAPI(TestCase):
@@ -19,5 +20,7 @@ class TestStockDataAPI(TestCase):
 
     def TestGetStockHistory2(self):
         code = 'A'
-        response = self.client.get('/stock/GetStockInfo?stock_symbol=' + code)
-        self.assertEqual(response.status_code,404)
+        response = self.client.get('/stock/GetStockHistory?stock_symbol=' + code)
+        #response = json.loads(response.body)
+
+        self.assertEqual(response.status_code, 404)
