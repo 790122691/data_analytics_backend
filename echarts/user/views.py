@@ -79,7 +79,7 @@ def logout(request):
 
 def AddPortfolio(request):
     # username = request.GET['username']
-    ticker = request.GET['ticker']
+    ticker = request.GET['Securitysymbol']
     # del request.session['user_name']
     # print('request.session_is_login----------------------------------------')
     # print(request.session['is_login'])
