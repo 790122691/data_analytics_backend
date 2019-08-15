@@ -28,7 +28,7 @@ def login(request):
         dic['error'] = 201
         dic['message'] = 'user information not match'
         return HttpResponse(json.dumps(dic))
-    dic['error'] = 201
+    dic['error'] = 200
     dic['message'] = name
     result = json.dumps(dic)
 
