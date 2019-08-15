@@ -37,7 +37,7 @@ def login(request):
     request.session.set_expiry(0)
     #request.session['is_login'] = True
     request.session['username'] = name
-    return HttpResponse(request, dic)
+    return HttpResponse(request, result)
 
 
 def register(request):
