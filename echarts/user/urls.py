@@ -10,7 +10,7 @@ urlpatterns = [
     re_path(r'GetPortfolio', views.GetPortfolio, name='GetPortfolio'),
     re_path(r'logout', views.logout, name='logout'),
     re_path(r'DeletePortfolio', views.DeletePortfolio, name='DeletePortfolio'),
-    path('isLogin/', views.isLogin, name='isLogin'),
+    re_path('isLogin', views.isLogin, name='isLogin'),
     re_path(r'isinPortfolio', views.isinPortfolio, name='isinPortfolio'),
 
 ]
