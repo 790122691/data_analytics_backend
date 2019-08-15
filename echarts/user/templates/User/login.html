@@ -46,7 +46,7 @@
                 const password = $("#password").val();
                 $.post("http://smallcookie.cn:8000/User/login/",{"username":username,"password":password},function (ret) {
                     ret = JSON.parse(ret);
-                    if(ret.error == 200){
+                    if(Number(ret.error) == 200){
                         location.href="http://smallcookie.cn:8000/"
                     }
                     else {
