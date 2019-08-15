@@ -47,7 +47,7 @@
                 $.post("http://smallcookie.cn:8000/User/login/",{"username":username,"password":password},function (ret) {
                     ret = JSON.parse(ret);
                     if(ret.error == 200){
-                        location.href="/"
+                        location.href="http://smallcookie.cn:8000/"
                     }
                     else {
                         alert(ret.message)
