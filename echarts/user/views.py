@@ -76,6 +76,7 @@ def logout(request):
     return HttpResponseRedirect('/User/login')
 
 
+
 def AddPortfolio(request):
     # username = request.GET['username']
     ticker = request.GET['ticker']
@@ -105,6 +106,7 @@ def AddPortfolio(request):
         # print('blank data')
         # return HttpResponseNotFound('blank data')
     # 用户是否存在
+    print('-------------------',username)
     try:
         is_user = User.objects.get(name=username)
     except User.DoesNotExist:
@@ -250,6 +252,7 @@ def DeletePortfolio(request):
 
 
 def isLogin(request):
+    # print('username', request.session['username'] )
     try:
         username = request.session['username']
         dic = {}
@@ -257,6 +260,8 @@ def isLogin(request):
         print('Login')
         return HttpResponse(json.dumps(dic))
     except KeyError:
+        # print('aaaaaaaaaaaaa')
+
         dic = {}
         dic['isLogin'] = 'false'
         print('notLogin')
@@ -265,15 +270,15 @@ def isLogin(request):
 
 def isinPortfolio(request):
     stocksymbol = request.GET['stocksymbol']
-    try:
-        obj = Portfolio.objects.get(Tickercode=stocksymbol)
-        # 存在
-        dic = {}
-        dic['isinPortfolio'] = 'true'
-        print('isinPortfolio')
-        return HttpResponse(json.dumps(dic))
-    except Portfolio.DoesNotExist:
+    obj = Portfolio.objects.filter(Tickercode=stocksymbol)
+    count = obj.count()
+    if (count==0):
         dic = {}
         dic['isinPortfolio'] = 'false'
         print('notinPortfolio')
+        return HttpResponse(json.dumps(dic))
+    else:
+        dic = {}
+        dic['isinPortfolio'] = 'true'
+        print('inPortfolio')
         return HttpResponse(json.dumps(dic))
