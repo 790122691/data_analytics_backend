@@ -270,15 +270,15 @@ def isLogin(request):
 
 def isinPortfolio(request):
     stocksymbol = request.GET['stocksymbol']
-    obj = Portfolio.objects.filter(Tickercode=stocksymbol)
-    count = obj.count()
-    if (count==0):
-        dic = {}
-        dic['isinPortfolio'] = 'false'
-        print('notinPortfolio')
+    try:
+        username = request.session['username']
+    except KeyError:
+        dic = {'isinPortfolio' : False}
         return HttpResponse(json.dumps(dic))
-    else:
-        dic = {}
-        dic['isinPortfolio'] = 'true'
-        print('inPortfolio')
+    try:
+        obj = Portfolio.objects.get(Username=username, Tickercode=stocksymbol)
+        dic = {'isinPortfolio' : True}
+        return HttpResponse(json.dumps(dic))
+    except Portfolio.DoesNotExist:
+        dic = {'isinPortfolio', False}
         return HttpResponse(json.dumps(dic))
