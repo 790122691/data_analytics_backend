@@ -28,14 +28,16 @@ def login(request):
         dic['error'] = 201
         dic['message'] = 'user information not match'
         return HttpResponse(json.dumps(dic))
-    data = {'username': name}
-    result = json.dumps(data)
+    dic['error'] = 201
+    dic['message'] = name
+    result = json.dumps(dic)
+
     print(result)
     # 一旦用户名和密码输入正确，就往session字典内写入用户数据
     request.session.set_expiry(0)
     #request.session['is_login'] = True
     request.session['username'] = name
-    return HttpResponse(request, result)
+    return HttpResponse(request, dic)
 
 
 def register(request):
