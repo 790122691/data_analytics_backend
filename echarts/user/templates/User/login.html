@@ -44,7 +44,7 @@
             $("#Login").click(function () {
                 const username = $("#username").val();
                 const password = $("#password").val();
-                $.post("/User/login/",{"username":username,"password":password},function (ret) {
+                $.post("http://smallcookie.cn:8000/User/login/",{"username":username,"password":password},function (ret) {
                     ret = JSON.parse(ret);
                     if(ret.error == 200){
                         location.href="/"
